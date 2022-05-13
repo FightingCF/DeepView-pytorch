@@ -63,12 +63,13 @@ class Trainer:
         """
         # TODO: why sigmoid here out of the network?
         output = torch.sigmoid(output)
-        rgba_layers = output.permute(0, 3, 4, 1, 2)
+        rgba_layers = output.permute(0, 3, 4, 1, 2) # rgba_layers: (batch_size, h, w, n_views, 4)
         n_targets = input['images_tgt'].shape[1]
 
         batch_size = rgba_layers.shape[0]
         images_render = []
         for i in range(batch_size):
+            # the later should be source
             pose = torch.matmul(input['w2cs_tgt'][i], input['c2ws_tgt'][i])
             intrin_tgt = input['intrins_tgt'][i]
             intrin_src = input['intrins_tgt'][i]
